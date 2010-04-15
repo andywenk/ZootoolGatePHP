@@ -4,7 +4,7 @@
  *
  * Andy Wenk <andy@nms.de>
  */
-include_once('ZootoolGatePHP.php');
+include_once('../src/ZootoolGatePHP.php');
 
 // these are the required parameter
 $zoogate = new ZootoolGatePHP();
