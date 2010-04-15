@@ -13,13 +13,17 @@ class ZootoolGatePHP {
 	protected $password;
 	protected $apikey;
 	protected $limit = 100;
+	protected $format;
 	protected $zootoolApiUrl = 'http://zootool.com/api/';
 	protected $acceptedAreaTypes = array('items' 	=> array('popular', 'info'), 
 							   			 'users' 	=> array('items', 'info', 
 															 'friends', 'followers'),
 							   			 'add' 		=> array()
 								   );
-	protected $acceptedParams = array('type'	=> array('all', 'month', 'week', 'today'));
+	protected $acceptedParams = array('type' => array('all', 'month', 'week', 'today'),
+									  'username', 'login', 'offset', 'limit', 'search',
+									  'url', 'title', 'tags', 'description', 'referer',
+									  'public' => array('y', 'n'));
 	
 	/**
 	 * constructor
@@ -102,9 +106,9 @@ class ZootoolGatePHP {
 	protected function createParams($params) {
 		foreach($params as $key => $val) {
 			if(!self::checkParams($key, $val)) return false;
+			$val = urlencode($val);
 			$paramURL[] = "{$key}={$val}";
 		}
-		
 		return implode('&', $paramURL);
 	}
 	
@@ -116,12 +120,15 @@ class ZootoolGatePHP {
 	 * @param string $val
 	 */
 	protected function checkParams($key, $val) {
-		if(array_key_exists($key, $this->acceptedParams)) {
-			if(!in_array($val, $this->acceptedParams[$key])) {
-				return false;
+		if(array_key_exists($key, $this->acceptedParams) || in_array($key, $this->acceptedParams)) {
+			if(is_array($this->acceptedParams[$key])) {
+				if(!in_array($val, $this->acceptedParams[$key])) {
+					return false;
+				}
 			}
+			return true;
 		}
-		return true;
+		return false;
 	}
 	
 	/**
@@ -141,6 +148,8 @@ class ZootoolGatePHP {
 	 */
 	protected function requestData($url) {
 		try {
+			if(!function_exists('curl_init'))
+				throw new Exception('{"error" : "curl_init is not available! Please install the php_curl extension"}');
 			if(!$curlHandle = curl_init()) 
 				throw new Exception('{"error" : "curl_init failed!"}');
 			
