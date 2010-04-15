@@ -83,7 +83,8 @@ class ZootoolGatePHP {
 	 * @return json result from the called method 
 	 */
 	public function get($area, $type, $params = array()) {
-		if(!in_array($type, $this->acceptedAreaTypes[$area])) return false;
+		if(!in_array($type, $this->acceptedAreaTypes[$area])) 
+			return '{"error" : "this method is not supported"}';
 		
 		$url = "{$area}/{$type}/?";
 		if(!$params = self::createParams($params))
