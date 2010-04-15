@@ -1,6 +1,8 @@
 ZootoolGatePHP
 =============
 
+--- this is still under development, but you know: release often and early ;-) ---
+
 This is a wrapper for the zootool.com API. There is already a nice one written by 
 Adam Hopkins http://adamhopkinson.co.uk/zoophp. The approach here is a little different
 so I thought it's worth publishing it. 
