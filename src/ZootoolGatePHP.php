@@ -87,6 +87,8 @@ class ZootoolGatePHP {
 	 * @return json result from the called method 
 	 */
 	public function get($area, $type, $params = array()) {
+		if(!array_key_exists($area, $this->acceptedAreaTypes)) 
+			return '{"error" : "this area is not supported"}';
 		if(!in_array($type, $this->acceptedAreaTypes[$area])) 
 			return '{"error" : "this method is not supported"}';
 		
