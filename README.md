@@ -17,8 +17,7 @@ Usage
 see the example in examples/zootoolExample.php
 
 todo
-----
-- support adding new bookmarks 
+---- 
 - write tests
 - more doku
 
